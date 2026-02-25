@@ -1,20 +1,21 @@
 package pojo;
 
+import lombok.Data;
+import lombok.Getter;
+
 import java.util.ArrayList;
 
+@Data
 public class Pet {
 
-    public class Category{
-        public int id;
-        public String name;
+    public void pet(){};
+
+    public  Pet(Integer id, String name){
+        this.id = id;
+        this.name = name;
     }
 
-    public class Root{
-        public int id;
-        public Category category;
-        public String name;
-        public ArrayList<Object> photoUrls;
-        public ArrayList<Object> tags;
-        public String status;
-    }
+    private Integer id;
+    private String name;
+
 }

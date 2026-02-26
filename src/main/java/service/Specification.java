@@ -9,10 +9,9 @@ import io.restassured.specification.ResponseSpecification;
 
 public class Specification {
     public static RequestSpecification requestSpec(String url){
-        return new RequestSpecBuilder()
-                .setBaseUri(url)
-                .setContentType(ContentType.JSON)
-                .build();
+        return RestAssured.given()
+                .baseUri(url)
+                .contentType(ContentType.JSON);
     }
     public static ResponseSpecification responseSpecOK200(){
         return new ResponseSpecBuilder()
@@ -36,11 +35,6 @@ public class Specification {
         return new ResponseSpecBuilder()
                 .expectStatusCode(status)
                 .build();
-    }
-
-    public static void installSpecification(RequestSpecification request, ResponseSpecification response){
-        RestAssured.requestSpecification = request;
-        RestAssured.responseSpecification = response;
     }
 
 }

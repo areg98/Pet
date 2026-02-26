@@ -1,4 +1,5 @@
 import constans.Urls;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import pojo.User;
 import service.Specification;
@@ -15,23 +16,35 @@ public class UserTest {
                 .body(user)
                 .post("user")
                 .then()
-                .log().all();
+                .log().all()
+                .assertThat().statusCode(200);
 
     }
 
 
     @Test
     public void getUserByUserNameTest() {
-        Specification.requestSpec(Urls.BASEURL)
+
+        User userResponse = new User();
+
+        userResponse = Specification.requestSpec(Urls.BASEURL)
                 .when()
                 .get("user/areg98")
                 .then()
-                .log().all();
+                .log().all()
+                .extract().response().as(User.class);
+
+        Assert.assertEquals(userResponse.username, "areg98");
+
+
     }
 
+
+    // extract response u grel asert testi hamar
     @Test
     public void updateUserTest() {
         User user = new User(1, "areg98", "Areg", "Hovakimyan", "hov@mail.com", "1234", "+8123456", 1);
+        User userResponse = new User();
 
         Specification.requestSpec(Urls.BASEURL)
                 .when()
@@ -39,5 +52,15 @@ public class UserTest {
                 .put("user/areg98")
                 .then()
                 .log().all();
+
+        userResponse = Specification.requestSpec(Urls.BASEURL)
+                .when()
+                .get("user/areg98")
+                .then()
+                .log().all()
+                .extract().response().as(User.class);
+
+
+        Assert.assertEquals(userResponse.email, user.email);
     }
 }

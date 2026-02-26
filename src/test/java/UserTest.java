@@ -4,12 +4,16 @@ import org.testng.annotations.Test;
 import pojo.User;
 import service.Specification;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserTest {
 
     @Test
-    public void creatUserTest() {
+    public void createUserTest() {
 
         User user = new User(1, "areg98", "Areg", "Hovakimyan", "areg@mail.com", "1234", "+8123456", 1);
+
 
         Specification.requestSpec(Urls.BASEURL)
                 .when()
@@ -21,6 +25,22 @@ public class UserTest {
 
     }
 
+
+    @Test
+    public void createUserWithListTest() {
+        User user = new User(1, "areg98", "Areg", "Hovakimyan", "areg@mail.com", "1234", "+8123456", 1);
+
+        List<User> list = new ArrayList<>();
+        list.add(user);
+
+        Specification.requestSpec(Urls.BASEURL)
+                .when()
+                .body(list)
+                .post("user/createWithList")
+                .then()
+                .log().all()
+                .assertThat().statusCode(200);
+    }
 
     @Test
     public void getUserByUserNameTest() {
